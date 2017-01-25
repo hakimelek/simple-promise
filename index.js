@@ -49,13 +49,17 @@ class SimplePromise {
     release(error);
   }
 
-
   onResolved(result) {
     if(this.state === 'resolved') return;
     this.status = 'resolved';
     release(result);
   }
 
+  onRejected(error) {
+    if(this.state === 'resolved') return;
+    this.status = 'rejected';
+    release(error);
+  }
 
   release(value) {
     this.result = value;
@@ -64,7 +68,6 @@ class SimplePromise {
     }, this)
   }
 }
-
 
 /*
 * Trying the Simple promise
@@ -89,13 +92,13 @@ var promiseCount = 0;
     );
 
     p1.then(
-        function(val) {
-            console.log(val + ' - Promise resolved');
-        })
+      function(val) {
+          console.log(val + ' - Promise resolved');
+      })
     .catch(
-        function(reason) {
-            console.log('Handle rejected promise ('+reason+') here.');
-        });
+      function(reason) {
+          console.log('Handle rejected promise ('+reason+') here.');
+      });
 
     console.log('Promise made');
 })();
